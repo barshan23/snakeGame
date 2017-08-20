@@ -1,4 +1,4 @@
-import pygame
+import pygame,random
 
 pygame.init()
 
@@ -31,6 +31,10 @@ def gameLoop():
 	lead_x, lead_y = display_width/2,display_height/2
 	lead_x_change = 0
 	lead_y_change = 0
+
+	randAppleX = round(random.randrange(0, display_width-blockSize)/10.0)*10.0
+	randAppleY = round(random.randrange(0, display_height-blockSize)/10.0)*10.0
+
 	while not gameExit:
 
 		while gameOver == True:
@@ -70,6 +74,7 @@ def gameLoop():
 		lead_x += lead_x_change
 		lead_y += lead_y_change
 		gameDisplay.fill(WHITE)
+		pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, blockSize, blockSize])
 		pygame.draw.rect(gameDisplay, BLACK, [lead_x,lead_y,blockSize,blockSize])
 		pygame.display.update()
 
