@@ -1,4 +1,4 @@
-import pygame,time
+import pygame
 
 pygame.init()
 
@@ -15,13 +15,7 @@ blockSize = 10
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption("Snake")
-#pygame.display.update()
-
-gameExit = False
-
-lead_x, lead_y = [display_width/2,display_height/2]
-lead_x_change = 0
-lead_y_change = 0
+pygame.display.update()
 
 clock = pygame.time.Clock()
 
@@ -31,38 +25,57 @@ def showMessage(msg,color):
 	textScreen = font.render(msg, True, color)
 	gameDisplay.blit(textScreen, [display_width/2, display_height/2])
 
+def gameLoop():
+	gameExit = False
+	gameOver = False
+	lead_x, lead_y = display_width/2,display_height/2
+	lead_x_change = 0
+	lead_y_change = 0
+	while not gameExit:
 
-while not gameExit:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			gameExit = True
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_LEFT:
-				lead_x_change = -blockSize
-				lead_y_change = 0
-			if event.key == pygame.K_RIGHT:
-				lead_x_change = blockSize
-				lead_y_change = 0
-			if event.key == pygame.K_UP:
-				lead_y_change = -blockSize
-				lead_x_change = 0
-			if event.key == pygame.K_DOWN:
-				lead_y_change = blockSize
-				lead_x_change = 0
+		while gameOver == True:
+			gameDisplay.fill(WHITE)
+			showMessage("Game Over! Press C to play again, Q to quit game",RED)
+			pygame.display.update()
+			for event in pygame.event.get():
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_q:
+						gameExit = True
+						gameOver = False
+					if event.key == pygame.K_c:
+						gameOver = False
+						gameLoop()
 
-	if lead_x >= display_width or lead_x < 0 or lead_y >= display_height or lead_y < 0 :
-		gameExit = True
 
-	lead_x += lead_x_change
-	lead_y += lead_y_change
-	gameDisplay.fill(WHITE)
-	pygame.draw.rect(gameDisplay, BLACK, [lead_x,lead_y,blockSize,blockSize])
-	pygame.display.update()
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				gameExit = True
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_LEFT:
+					lead_x_change = -blockSize
+					lead_y_change = 0
+				if event.key == pygame.K_RIGHT:
+					lead_x_change = blockSize
+					lead_y_change = 0
+				if event.key == pygame.K_UP:
+					lead_y_change = -blockSize
+					lead_x_change = 0
+				if event.key == pygame.K_DOWN:
+					lead_y_change = blockSize
+					lead_x_change = 0
 
-	clock.tick(FPS)
+		if lead_x >= display_width or lead_x < 0 or lead_y >= display_height or lead_y < 0 :
+			gameOver = True
 
-showMessage("You Lose!",RED)
-pygame.display.update()
-time.sleep(2)
+		lead_x += lead_x_change
+		lead_y += lead_y_change
+		gameDisplay.fill(WHITE)
+		pygame.draw.rect(gameDisplay, BLACK, [lead_x,lead_y,blockSize,blockSize])
+		pygame.display.update()
 
-pygame.quit()
+		clock.tick(FPS)
+	pygame.quit()
+	quit()
+
+
+gameLoop()
