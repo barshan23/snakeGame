@@ -22,8 +22,9 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 25)
 
 def showMessage(msg,color):
+	w,h = font.size(msg)
 	textScreen = font.render(msg, True, color)
-	gameDisplay.blit(textScreen, [display_width/2, display_height/2])
+	gameDisplay.blit(textScreen, [(display_width/2)-(w/2), (display_height/2)-(h/2)])
 
 def snake(blockSize, snakeList):
 	for x,y in snakeList:
