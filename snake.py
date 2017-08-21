@@ -25,6 +25,9 @@ def showMessage(msg,color):
 	textScreen = font.render(msg, True, color)
 	gameDisplay.blit(textScreen, [display_width/2, display_height/2])
 
+def snake(lead_x,lead_y,blockSize):
+	pygame.draw.rect(gameDisplay, BLACK, [lead_x,lead_y,blockSize,blockSize])
+
 def gameLoop():
 	gameExit = False
 	gameOver = False
@@ -75,8 +78,12 @@ def gameLoop():
 		lead_y += lead_y_change
 		gameDisplay.fill(WHITE)
 		pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, blockSize, blockSize])
-		pygame.draw.rect(gameDisplay, BLACK, [lead_x,lead_y,blockSize,blockSize])
+		snake(lead_x,lead_y,blockSize)
 		pygame.display.update()
+
+		if lead_x == randAppleX and lead_y == randAppleY:
+			randAppleX = round(random.randrange(0, display_width-blockSize)/10.0)*10.0
+			randAppleY = round(random.randrange(0, display_height-blockSize)/10.0)*10.0
 
 		clock.tick(FPS)
 	pygame.quit()
